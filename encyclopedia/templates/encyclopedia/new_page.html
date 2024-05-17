@@ -1,0 +1,19 @@
+{% extends "encyclopedia/layout.html" %}
+
+{% block title %}
+    {{ title }}
+{% endblock %}
+
+{% block body %}
+    <h1>Create New Entry</h1>
+    <form>
+        {{ form }}
+    </form>
+    
+    <textarea rows="5" cols="50">
+    Enter you content.
+    </textarea>
+    <input type="submit">
+    
+
+{% endblock %}
