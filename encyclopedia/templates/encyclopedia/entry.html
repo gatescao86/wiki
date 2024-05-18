@@ -5,8 +5,9 @@
 {% endblock %}
 
 {% block body %}
-
-    <a href="/{{ title }}/edit" class="btn btn-primary" role="button">Edit Page</a>
+    <div class="button">
+        <a href="/{{ title }}/edit" class="btn btn-primary" role="button">Edit Page</a>
+    </div>
 
     {% if entry %}
         <p1>{{ entry }}</p1>

@@ -4,6 +4,8 @@ from django.urls import reverse
 from django import forms
 
 from . import util
+import random
+import markdown2
 
 class NewEntryForm(forms.Form):
     entry = forms.CharField(label="Title")
@@ -15,8 +17,12 @@ def index(request):
     })
 
 def entry(request, title):
+    
+    content = util.get_entry(title)
+    content_html = markdown2.markdown(content)
+
     return render(request, "encyclopedia/entry.html", {
-        "entry": util.get_entry(title),
+        "entry": content_html,
         "title": title 
     })
 
@@ -26,7 +32,6 @@ def search(request):
 
         for title in util.list_entries():
             if query == title:
-                # return entry(request, title)
                 return HttpResponseRedirect('/entry/' + title)
 
         results = []
@@ -72,5 +77,8 @@ def edit(request, title):
 
     return render(request, "encyclopedia/edit.html")
 
-def random(request):
-    pass
+def random_page(request):
+    titles = util.list_entries()
+    random_title = random.choice(titles)
+
+    return HttpResponseRedirect(reverse("wiki:entry", kwargs={'title': random_title}))

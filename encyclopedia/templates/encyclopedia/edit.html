@@ -6,7 +6,7 @@
 
 {% block body %}
 <h1>Edit Entry</h1>
-<form action="{% url 'wiki:edit' title=title%}" method="POST">
+<form action="{% url 'wiki:edit' title=title %}" method="POST">
     <div class="form-group">
         <label for="content">Content:</label>
         <textarea class="form-control" name="content" rows="4" cols="50">{{ content }}</textarea>
