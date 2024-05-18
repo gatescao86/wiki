@@ -7,5 +7,7 @@ urlpatterns = [
     path("", views.index, name="index"),
     path("search", views.search, name="search"),
     path("entry/<str:title>", views.entry, name="entry"),
-    path("new_page", views.new_page, name="new_page")
+    path("create", views.create, name="create"),
+    path("error", views.error, name="error"),
+    path("<str:title>/edit", views.edit, name="edit")
 ]

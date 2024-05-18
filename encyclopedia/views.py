@@ -1,4 +1,6 @@
 from django.shortcuts import render
+from django.http import HttpResponseRedirect
+from django.urls import reverse
 from django import forms
 
 from . import util
@@ -24,7 +26,8 @@ def search(request):
 
         for title in util.list_entries():
             if query == title:
-                return entry(request, title)
+                # return entry(request, title)
+                return HttpResponseRedirect('/entry/' + title)
 
         results = []
         for title in util.list_entries():
@@ -37,8 +40,37 @@ def search(request):
 
     return render(request, "encyclopedia/search.html")
 
-def new_page(request):
-    return render(request, "encyclopedia/new_page.html", {
-        "form": NewEntryForm()
-    })
+def create(request):
+    if request.method == "POST":
+        title = request.POST['title']
+        content = request.POST['content']
 
+        if title in util.list_entries():
+            return HttpResponseRedirect('/error')
+        else:
+            util.save_entry(title, content)
+            return HttpResponseRedirect('/entry/' + title)
+    
+    return render(request, "encyclopedia/create.html")
+
+def error(request):
+    return render(request, "encyclopedia/error.html")
+
+def edit(request, title):
+    if request.method == "GET":
+        content = util.get_entry(title)
+
+        return render(request, "encyclopedia/edit.html", {
+            "title": title,
+            "content": content
+        })
+    
+    elif request.method == "POST":
+        content = request.POST['content']
+        util.save_entry(title, content)
+        return HttpResponseRedirect(reverse("wiki:entry", kwargs={'title': title}))
+
+    return render(request, "encyclopedia/edit.html")
+
+def random(request):
+    pass
